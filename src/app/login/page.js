@@ -1,7 +1,13 @@
 "use client";
 import React, { useState } from "react";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Button } from "@/components/ui/button";
+import { useRouter } from "next/navigation"; // ✅ For app directory
 
 export default function Login() {
+  const router = useRouter(); // ✅
+
   const [form, setForm] = useState({ email: "", password: "", profession: "" });
   const [message, setMessage] = useState("");
 
@@ -19,6 +25,12 @@ export default function Login() {
         body: JSON.stringify(form),
       });
       const data = await res.json();
+      if (res.status == 200) {
+        router.push("/"); // ✅ Redirect after successful login
+      } else {
+        setMessage(data.message || "Login failed.");
+      }
+
       setMessage(data.message || "Login successful!");
     } catch (err) {
       setMessage("Error logging in");
@@ -29,49 +41,51 @@ export default function Login() {
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
       <form
         onSubmit={handleSubmit}
-        className="bg-white p-8 rounded shadow-md w-full max-w-md"
+        className="bg-white p-8 rounded shadow-md w-full max-w-md space-y-5"
       >
-        <h2 className="text-2xl font-bold mb-6 text-center">Login</h2>
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Email</label>
-          <input
+        <h2 className="text-2xl font-bold text-center">Login</h2>
+
+        <div className="space-y-2">
+          <Label htmlFor="email">Email</Label>
+          <Input
+            id="email"
             type="email"
             name="email"
             value={form.email}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div className="mb-4">
-          <label className="block mb-1 font-medium">Password</label>
-          <input
+
+        <div className="space-y-2">
+          <Label htmlFor="password">Password</Label>
+          <Input
+            id="password"
             type="password"
             name="password"
             value={form.password}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <div className="mb-6">
-          <label className="block mb-1 font-medium">Profession</label>
-          <input
+
+        <div className="space-y-2">
+          <Label htmlFor="profession">Profession</Label>
+          <Input
+            id="profession"
             type="text"
             name="profession"
             value={form.profession}
             onChange={handleChange}
             required
-            className="w-full px-3 py-2 border rounded focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
         </div>
-        <button
-          type="submit"
-          className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
-        >
+
+        <Button type="submit" className="w-full">
           Login
-        </button>
-        {message && <p className="mt-4 text-center text-red-500">{message}</p>}
+        </Button>
+
+        {message && <p className="text-center text-red-500">{message}</p>}
       </form>
     </div>
   );
