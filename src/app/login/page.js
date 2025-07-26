@@ -36,6 +36,9 @@ export default function Login() {
       setMessage("Error logging in");
     }
   };
+  const handleGoogleLogin = () => {
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/auth/google`;
+  };
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100">
@@ -98,6 +101,13 @@ export default function Login() {
             Phone Number Login
           </a>
         </div>
+        <Button
+          variant="outline"
+          className="w-full mt-4"
+          onClick={handleGoogleLogin}
+        >
+          Login with Google
+        </Button>
 
         {message && <p className="text-center text-red-500">{message}</p>}
       </form>
