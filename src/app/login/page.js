@@ -84,6 +84,20 @@ export default function Login() {
         <Button type="submit" className="w-full">
           Login
         </Button>
+        <div>
+          <p className="text-center text-sm text-gray-500">
+            Don't have an account?{" "}
+            <a href="/signUP" className="text-blue-500 hover:underline">
+              Sign Up
+            </a>
+          </p>
+        </div>
+        <div>
+          login with phone number?{" "}
+          <a href="login/with-phone" className="text-blue-500 hover:underline">
+            Phone Number Login
+          </a>
+        </div>
 
         {message && <p className="text-center text-red-500">{message}</p>}
       </form>
