@@ -16,11 +16,11 @@ export default function SignUp() {
   });
   const [message, setMessage] = useState("");
 
-  const handleChange = (e) => {
+  const handleChange = e => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async e => {
     e.preventDefault();
     setMessage("");
 
@@ -98,10 +98,23 @@ export default function SignUp() {
             required
           />
         </div>
-
         <Button type="submit" className="w-full">
           Sign Up
         </Button>
+        <div>
+          <p className="text-center text-sm text-gray-500">
+            You already account?{" "}
+            <a href="/login" className="text-blue-500 hover:underline">
+              Login
+            </a>
+          </p>
+        </div>
+        <div>
+          login with phone number?{" "}
+          <a href="login/with-phone" className="text-blue-500 hover:underline">
+            Phone Number Login
+          </a>
+        </div>
 
         {message && <p className="text-center text-red-500">{message}</p>}
       </form>
