@@ -1,20 +1,36 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
+import { useDispatch } from "react-redux";
+import HomePage from "../home/page";
+import { toast } from "sonner";
 
 const GoogleSuccess = () => {
   const router = useRouter();
   const params = useSearchParams();
-  const email = params.get("email");
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    if (email) {
-      // You can set this in a global context or localStorage
-      localStorage.setItem("userEmail", email);
-      router.push("/"); // Or any protected route
-    }
-  }, [email]);
+    const email = params.get("email");
+    const name = params.get("name");
+    const token = params.get("token");
 
-  return <div className="p-4">Logging you in with Google...</div>;
+    if (email && token) {
+      const user = { email, name };
+      dispatch(setUser({ user, token }));
+
+      localStorage.setItem("user", JSON.stringify(user));
+      localStorage.setItem("token", token);
+
+      toast.success("Logged in successfully via Google!", { duration: 2000 });
+      setTimeout(() => router.push("/"), 2000);
+    }
+  }, [params]);
+
+  return (
+    <>
+      <HomePage />
+    </>
+  );
 };
 export default GoogleSuccess;
